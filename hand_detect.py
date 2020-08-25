@@ -4,11 +4,25 @@ import cv2
 import pandas as pd
 import json
 import csv
+import argparse
 
 # file paths
 json_folder = 'driving_jsons'
 vid_path = '../../Nik-Driving/driving_bottom_left_new.mp4'
 subject_rect = [(71,55), (243, 235)]
+
+# Data from finding rectangles using labelImg - saved as xml file 
+# 8 rects = 8 lists
+# [top left, bottom right] where each pt is (x,y)
+# move with global vars
+wheel_rects_diags = [[(157,153),(165,165)],
+            [(160,143),(167,152)],
+            [(162,132),(174,142)],
+            [(170,124),(183,131)],
+            [(169,116),(196,128)],
+            [(192,124),(199,140)],
+            [(156,120),(173,163)],
+            [(157,108),(201,123)]]
 
 # gets width and height of video
 def vid_dimensions(vid_path):
@@ -166,7 +180,7 @@ def debounce_data(frames, buffer):
                 filtered_frames.append(frames[i])
     return filtered_frames
 
-
+'''
 left_wrist_df = create_dataframe(json_folder, True, 1000)
 right_wrist_df = create_dataframe(json_folder, False, 1000)
 
@@ -201,7 +215,7 @@ print("filtered right frames")
 r_updated_frames = debounce_data(r_hands_off_frames, 5)
 print(r_updated_frames)
 print("Num frames: ",len(r_updated_frames),"\n")
-
+'''
 
 '''
 Given a list of frames and a range, this function will create a list of tuples of start to end frames in that range.
@@ -235,29 +249,63 @@ def frame_to_time(frame_num, fps):
     time = f"{mins}:{secs}"
     return time
 
-data = {}
-json_list = []
+def write_file(text, is_left, outfile):
+    data = {}
+    json_list = []
+
+    for start,end in text:
+        if is_left:
+            data["event"] = "left hand off wheel"
+        else:
+            data["event"] = "right hand off wheel"
+        data["start"] = frame_to_time(start, 15)
+        data["end"] = frame_to_time(end, 15)
+        json_dump = json.dumps(data)
+        json_list.append(json_dump)
+
+    with open(outfile, 'a') as out:
+            out.writelines(["%s\n" % item for item in json_list])
+    
+    print("Results written to ", outfile)
 
 
-l_hand_ranges = create_ranges(l_hands_off_frames, 15)
-r_hand_ranges = create_ranges(r_hands_off_frames, 15)
 
-for start,end in l_hand_ranges:
-    data["event"] = "left hand off wheel"
-    data["start"] = frame_to_time(start, 15)
-    data["end"] = frame_to_time(end, 15)
-    json_dump = json.dumps(data)
-    json_list.append(json_dump)
+if __name__ == "__main__":
+    argparser = argparse.ArgumentParser(description = "Hand detection - Given a folder of JSON files representing each frame of a video after being run through OpenPose for pose detection, this file will detect every time the driver's hands have left the steering wheel.")
+    argparser.add_argument("input_folder",
+                        type=str,
+                        help="folder containing JSON objects of frames")
+    argparser.add_argument("output_file",
+                        type=str,
+                        help="file containing JSON objects of results (when driver's hands were off the wheel)")
 
-data = {}
-for start,end in r_hand_ranges:
-    data["event"] = "right hand off wheel"
-    data["start"] = frame_to_time(start, 15)
-    data["end"] = frame_to_time(end, 15)
-    json_dump = json.dumps(data)
-    json_list.append(json_dump)
+    args = argparser.parse_args()
 
-with open("frames.txt", 'w') as out:
-        out.writelines(["%s\n" % item for item in json_list])
+    left_wrist_df = create_dataframe(args.input_folder, True, 1000)
+    right_wrist_df = create_dataframe(args.input_folder, False, 1000)
 
-print("wrote to file frames.txt")
+    l_hands_off_frames = off_wheel_frames(left_wrist_df, True, wheel_rects_diags, 10)
+    print("left wrist")
+    print(l_hands_off_frames)
+    print("Num frames: ",len(l_hands_off_frames),"\n")
+
+    print("filtered left frames")
+    l_updated_frames = debounce_data(l_hands_off_frames, 5)
+    print(l_updated_frames)
+    print("Num frames: ",len(l_updated_frames),"\n")
+
+    r_hands_off_frames = off_wheel_frames(right_wrist_df, False, wheel_rects_diags, 10)
+    print("right wrist")
+    print(r_hands_off_frames)
+    print("Num frames: ",len(r_hands_off_frames),"\n")
+
+    print("filtered right frames")
+    r_updated_frames = debounce_data(r_hands_off_frames, 5)
+    print(r_updated_frames)
+    print("Num frames: ",len(r_updated_frames),"\n")
+
+    l_hand_ranges = create_ranges(l_hands_off_frames, 15)
+    r_hand_ranges = create_ranges(r_hands_off_frames, 15)
+
+    write_file(l_hand_ranges, True, args.output_file)
+    write_file(r_hand_ranges, False, args.output_file)
