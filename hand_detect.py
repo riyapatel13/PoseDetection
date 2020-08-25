@@ -180,42 +180,6 @@ def debounce_data(frames, buffer):
                 filtered_frames.append(frames[i])
     return filtered_frames
 
-'''
-left_wrist_df = create_dataframe(json_folder, True, 1000)
-right_wrist_df = create_dataframe(json_folder, False, 1000)
-
-# Data from finding rectangles using labelImg - saved as xml file 
-# 8 rects = 8 lists
-# [top left, bottom right] where each pt is (x,y)
-wheel_rects_diags = [[(157,153),(165,165)],
-               [(160,143),(167,152)],
-               [(162,132),(174,142)],
-               [(170,124),(183,131)],
-               [(169,116),(196,128)],
-               [(192,124),(199,140)],
-               [(156,120),(173,163)],
-               [(157,108),(201,123)]]
-
-l_hands_off_frames = off_wheel_frames(left_wrist_df, True, wheel_rects_diags, 10)
-print("left wrist")
-print(l_hands_off_frames)
-print("Num frames: ",len(l_hands_off_frames),"\n")
-
-print("filtered left frames")
-l_updated_frames = debounce_data(l_hands_off_frames, 5)
-print(l_updated_frames)
-print("Num frames: ",len(l_updated_frames),"\n")
-
-r_hands_off_frames = off_wheel_frames(right_wrist_df, False, wheel_rects_diags, 10)
-print("right wrist")
-print(r_hands_off_frames)
-print("Num frames: ",len(r_hands_off_frames),"\n")
-
-print("filtered right frames")
-r_updated_frames = debounce_data(r_hands_off_frames, 5)
-print(r_updated_frames)
-print("Num frames: ",len(r_updated_frames),"\n")
-'''
 
 '''
 Given a list of frames and a range, this function will create a list of tuples of start to end frames in that range.
@@ -285,24 +249,26 @@ if __name__ == "__main__":
     right_wrist_df = create_dataframe(args.input_folder, False, 1000)
 
     l_hands_off_frames = off_wheel_frames(left_wrist_df, True, wheel_rects_diags, 10)
+    l_updated_frames = debounce_data(l_hands_off_frames, 5)
+    r_hands_off_frames = off_wheel_frames(right_wrist_df, False, wheel_rects_diags, 10)
+    r_updated_frames = debounce_data(r_hands_off_frames, 5)
+
+    # uncomment to see results
+    '''
     print("left wrist")
     print(l_hands_off_frames)
     print("Num frames: ",len(l_hands_off_frames),"\n")
-
     print("filtered left frames")
-    l_updated_frames = debounce_data(l_hands_off_frames, 5)
     print(l_updated_frames)
     print("Num frames: ",len(l_updated_frames),"\n")
-
-    r_hands_off_frames = off_wheel_frames(right_wrist_df, False, wheel_rects_diags, 10)
+ 
     print("right wrist")
     print(r_hands_off_frames)
     print("Num frames: ",len(r_hands_off_frames),"\n")
-
     print("filtered right frames")
-    r_updated_frames = debounce_data(r_hands_off_frames, 5)
     print(r_updated_frames)
     print("Num frames: ",len(r_updated_frames),"\n")
+    '''
 
     l_hand_ranges = create_ranges(l_hands_off_frames, 15)
     r_hand_ranges = create_ranges(r_hands_off_frames, 15)
