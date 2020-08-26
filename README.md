@@ -29,7 +29,8 @@ This repo contains code to perform pose detection on video clips. This was creat
 
 ## Process
 The overall goal is to be able to identify poses that are deemed "interesting" by the user researcher. In the context of driving, this includes when a driver's hands are off the wheel, when they adjust their mirrors, etc. I focused on identifying when the driver is not placing their hands on the wheel. First, I started with a video clip of 4 different camera views of the driver (2020-03-03_IKEA-DRIVE_CLIP.mp4). I cropped it to one view and added frame numbers using [FFmpeg](https://ffmpeg.org/) (output.mp4). Then, I ran this new video through [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) and saved the video with the skeleton (skeleton.mp4), along with pictures of each frame with the skeletons (driving_frames) and JSON files containing data of each frame with the skeleton (driving_jsons).
-![](images/orig.gif)
+
+![](images/orig.gif) ![](images/output.gif) ![](images/skeleton.gif)
 
 ## Running Code
 Need to create a requirements.txt 
