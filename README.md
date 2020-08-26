@@ -21,12 +21,15 @@ Then, I used a graphical image annotation tool called [LabelImg](https://github.
 | ------ | ------ |
 | ![](images/driver_rect.png) | ![](images/wheel_rect.png) |
 
-The coordinates of the rectangles were saved in annotated.xml. I used these coordinates in my code. In my code, I first created a table of the left wrist and right wrist coordinates of the driver by reading through the JSON files and adding the left and right wrist coordinates if they were in the driver's rectangle (left_wrist.csv and right_wrist.csv). Then, I found the frame numbers where the wrists were off the wheel by checking if they weren't in any bounding box. Since OpenPose is somewhat noisy and analyzes each frame independently from other frames, I created a debouncing function that eliminated frame numbers if their neighboring frames weren't detected. Then, I converted frame numbers to video times (for the user) and outputted the results (frames.txt).
+The coordinates of the rectangles were saved in annotated_driving.xml. I used these coordinates in my code. In my code, I first created a table of the left wrist and right wrist coordinates of the driver by reading through the JSON files and adding the left and right wrist coordinates if they were in the driver's rectangle (left_wrist.csv and right_wrist.csv). Then, I found the frame numbers where the wrists were off the wheel by checking if they weren't in any bounding box. Since OpenPose is somewhat noisy and analyzes each frame independently from other frames, I created a debouncing function that eliminated frame numbers if their neighboring frames weren't detected. Then, I converted frame numbers to video times (for the user) and outputted the results (frames.txt).
 
 
 ## Results
 The following are some sample results of when hands off the wheel were detected and their corresponding video clips.
 
+<b> Output: </b>  {"event": "right hand off wheel", "start": "0:0.466667", "end": "0:3.4"}
+
+![](images/0to3.mp4)
 
 ## Files Included 
 * data  
