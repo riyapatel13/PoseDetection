@@ -2,6 +2,27 @@
 
 This repo contains code to perform pose detection on video clips. This was created as part of an ongoing research project at Carnegie Mellon Human-Computer Interaction Institute under Dr. Nik Martelaro. The project is aimed at assisting user researchers in analyzing large amounts of qualitative data that humans are typically tasked with. Specifically, my role was concerned with developing and using off-the-shelf machine learning tools to perform computational analysis on data such as human speech and movements. 
 
+
+## Process
+The overall goal is to be able to identify poses that are deemed "interesting" by the user researcher. In the context of driving, this includes when a driver's hands are off the wheel, when they adjust their mirrors, etc. I focused on identifying when the driver is not placing their hands on the wheel. First, I started with a video clip of 4 different camera views of the driver (2020-03-03_IKEA-DRIVE_CLIP.mp4). I cropped it to one view and added frame numbers using [FFmpeg](https://ffmpeg.org/) (output.mp4). Then, I ran this new video through [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) and saved the video with the skeleton (skeleton.mp4), along with pictures of each frame with the skeletons (driving_frames) and JSON files containing data of each frame with the skeleton (driving_jsons).
+
+<b>Original Video</b>
+
+![](images/orig.gif) 
+
+| Bottom Left Corner | Skeleton |
+| ------ | ------ |
+| ![](images/output.gif) | ![](images/skeleton.gif) |
+
+
+Then, I used a graphical image annotation tool called [LabelImg](https://github.com/tzutalin/labelImg) to create bounding boxes around the areas I was analyzing. One drawback with LabelImg is that it only creates vertical rectangles, so if you want to create rotated rectangles, you can use [roLabelImg](https://github.com/cgvict/roLabelImg) which has the same features and includes the feature of drawing rotated rectangles (I found out about this a little too late). I created bounding boxes around the wheel for detecting when the hand leaves the wheel and around the driver to make sure the hand coordinates are in that area (if they aren't then the wrong person has been detected or the hand was unable to be detected).
+
+| Driver Rectangle | Wheel Rectangles |
+| ------ | ------ |
+| ![](images/driver_rect.png) | ![](images/wheel_rect.png) |
+
+The coordinates of the rectangles were saved in annotated.xml. I used these coordinates in my code.
+
 ## Files Included 
 * data  
   * videos
@@ -26,17 +47,6 @@ This repo contains code to perform pose detection on video clips. This was creat
   * Results of hand_detect.py on output.mp4
   * Contains JSON objects of times when hand was off the wheel in the following format: ```{"event": "left/right hand off wheel", "start": <start time>, "end": <end time>}```
 
-
-## Process
-The overall goal is to be able to identify poses that are deemed "interesting" by the user researcher. In the context of driving, this includes when a driver's hands are off the wheel, when they adjust their mirrors, etc. I focused on identifying when the driver is not placing their hands on the wheel. First, I started with a video clip of 4 different camera views of the driver (2020-03-03_IKEA-DRIVE_CLIP.mp4). I cropped it to one view and added frame numbers using [FFmpeg](https://ffmpeg.org/) (output.mp4). Then, I ran this new video through [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) and saved the video with the skeleton (skeleton.mp4), along with pictures of each frame with the skeletons (driving_frames) and JSON files containing data of each frame with the skeleton (driving_jsons).
-
-<b>Original Video</b>
-
-![](images/orig.gif) 
-
-| Bottom Left Corner | Skeleton |
-| ------ | ------ |
-| ![](images/output.gif) | ![](images/skeleton.gif) |
 
 ## Running Code
 Need to create a requirements.txt 
