@@ -30,3 +30,10 @@ This repo contains code to perform pose detection on video clips. This was creat
 
 ## Running Code
 Need to create a requirements.txt 
+
+To run the hand detection code to determine whether the driver's hand is off the wheel, run
+```bash
+python3 hand_detect.py <input_folder> <output_file>
+```
+* <input_folder> is the folder containing JSON objects of frames
+* <output_file> file containing JSON objects of results (when driver's hands were off the wheel)
