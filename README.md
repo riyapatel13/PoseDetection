@@ -31,7 +31,7 @@ This is an example of noisy data, which resulted in an incorrect classification.
 
 <b> Output: </b>  {"event": "right hand off wheel", "start": "0:0.466667", "end": "0:3.4"}
 
-![](images/0to3.gif)
+![](images/0to3.gif){:height="150%' width="150%"}
 
 <b> Output: </b>  {"event": "left hand off wheel", "start": "0:15.2", "end": "0:22.133333"}
 
