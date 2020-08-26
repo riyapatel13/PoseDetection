@@ -27,9 +27,31 @@ The coordinates of the rectangles were saved in annotated_driving.xml. I used th
 ## Results
 The following are some sample results of when hands off the wheel were detected and their corresponding video clips.
 
+This is an example of noisy data, which resulted in an incorrect classification.
+
 <b> Output: </b>  {"event": "right hand off wheel", "start": "0:0.466667", "end": "0:3.4"}
 
 ![](images/0to3.mp4)
+
+<b> Output: </b>  {"event": "left hand off wheel", "start": "0:15.2", "end": "0:22.133333"}
+
+![](images/15to22.mp4)
+
+<b> Output: </b>  {"event": "left hand off wheel", "start": "0:28.666667", "end": "0:30.533333"}
+
+![](images/28to35.mp4)
+
+<b> Output: </b>  {"event": "left hand off wheel", "start": "0:38.8", "end": "0:39.733333"}
+
+![](images/38to39.mp4)
+
+<b> Output: </b>  {"event": "right hand off wheel", "start": "0:40.733333", "end": "0:50.6"}
+
+![](images/40to56.mp4)
+
+<b> Output: </b>  {"event": "right hand off wheel", "start": "0:52.6", "end": "1:5.8"}
+
+![](images/52to65.mp4)
 
 ## Files Included 
 * data  
