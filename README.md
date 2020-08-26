@@ -12,6 +12,8 @@ This repo contains code to perform pose detection on video clips. This was creat
     * Folder containing photos of each individual skeleton frame from skeleton.mp4 (mostly used for debugging purposes)
   * driving_jsons
     * Folder containing JSON files with pose data of each skeleton frame from skeleton.mp4
+  * annotated_driving2.xml
+    * XML file containing information on bounding rectangles used for analysis
 
 ## Process
 
