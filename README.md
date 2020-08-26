@@ -18,6 +18,8 @@ This repo contains code to perform pose detection on video clips. This was creat
     * CSV file containing location of driver's left wrist in first 1000 frames (mostly used for viewing purposes)
   * right_wrist.csv
     * CSV file containing location of driver's right wrist in first 1000 frames (mostly used for viewing purposes)
+* images
+  * Images used in README
 * hand_detect.py
   * File containg code for determining when the driver's hand is off the wheel using output.mp4 (in data) as reference.
 * hand_detect_res.txt
