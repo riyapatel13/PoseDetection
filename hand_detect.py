@@ -7,8 +7,8 @@ import csv
 import argparse
 
 # file paths
-json_folder = 'driving_jsons'
-vid_path = '../../Nik-Driving/driving_bottom_left_new.mp4'
+json_folder = 'data/driving_jsons'
+vid_path = 'data/videos/output.mp4'
 subject_rect = [(71,55), (243, 235)]
 
 # Data from finding rectangles using labelImg - saved as xml file 
