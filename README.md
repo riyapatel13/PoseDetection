@@ -11,12 +11,14 @@ The overall goal is to be able to identify poses that are deemed "interesting" b
 ![](images/orig.gif) 
 
 | Bottom Left Corner | Skeleton |
+| ------ | ------ |
 | ![](images/output.gif) | ![](images/skeleton.gif) |
 
 
 Then, I used a graphical image annotation tool called [LabelImg](https://github.com/tzutalin/labelImg) to create bounding boxes around the areas I was analyzing. One drawback with LabelImg is that it only creates vertical rectangles, so if you want to create rotated rectangles, you can use [roLabelImg](https://github.com/cgvict/roLabelImg) which has the same features and includes the feature of drawing rotated rectangles (I found out about this a little too late). I created bounding boxes around the wheel for detecting when the hand leaves the wheel and around the driver to make sure the hand coordinates are in that area (if they aren't then the wrong person has been detected or the hand was unable to be detected).
 
 | Driver Rectangle | Wheel Rectangles |
+| ------ | ------ |
 | ![](images/driver_rect.png) | ![](images/wheel_rect.png) |
 
 The coordinates of the rectangles were saved in annotated.xml. I used these coordinates in my code.
