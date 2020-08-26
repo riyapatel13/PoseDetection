@@ -297,7 +297,7 @@ if __name__ == "__main__":
     '''
     # smaller time_range --> more precise results, larger --> less precise
     # time_range is in frames
-    time_range = 15 # 1 s
+    time_range = 25 # 1.67 s
     l_hand_ranges = create_ranges(l_hands_off_frames, time_range)
     r_hand_ranges = create_ranges(r_hands_off_frames, time_range)
 
